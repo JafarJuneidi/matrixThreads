@@ -7,6 +7,7 @@ int NUM_THREADS;
 int N;
 int **M1;
 int **M2;
+pthread_mutex_t lock;
 
 int numOfEven = 0;
 int numOfOdd = 0;
@@ -58,15 +59,20 @@ void *calculate(void *threadid) {
 		int row = i / N;
 		int col = i % N;
 		int result = 0;
+
 		for (int j = 0; j < N; ++j) {
 			result += M1[row][j] * M2[j][col];
 		}
+
 		if (result % 2 == 0) {
+			pthread_mutex_lock(&lock);
 			numOfEven++;
 		} else {
+			pthread_mutex_lock(&lock);
 			numOfOdd++;
 		}
 		totalNum++;
+		pthread_mutex_unlock(&lock);
 	}
 	
 	pthread_exit(NULL);

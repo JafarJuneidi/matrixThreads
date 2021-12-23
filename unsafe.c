@@ -52,8 +52,8 @@ void *calculate(void *threadid) {
 	if (id == NUM_THREADS - 1) {
 		elemPerThread = N*N - startElem;
 	}
-
-	printf("thread %i : calc %i elements : starting from element %i\n", id, elemPerThread, startElem);
+	
+	printf("threadID = %i, startLoop = %i, endLoop = %i\n", id, startElem, startElem + elemPerThread);
 	for (int i = startElem; i < startElem + elemPerThread; ++i) {
 		int row = i / N;
 		int col = i % N;

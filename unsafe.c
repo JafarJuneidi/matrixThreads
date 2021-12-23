@@ -100,6 +100,8 @@ int main (int argc, char *argv[]) {
 		pthread_join(threads[t], NULL);
 	}
 
+	FILE *outfile = fopen(outfile_name, "w");
+	fprintf(outfile, "numOfEven: %i, numOfOdd: %i, totalCells: %i\n", numOfEven, numOfOdd, totalNum);
 	printf("numOfEven: %i, numOfOdd: %i, totalCells: %i\n", numOfEven, numOfOdd, totalNum);
 
 	pthread_exit(NULL);

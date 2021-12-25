@@ -12,6 +12,7 @@ int numOfEven = 0;
 int numOfOdd = 0;
 int totalNum = 0;
 
+FILE *outfile;
 int input_handler(const char* infile_name)
 {
     FILE *infile = fopen(infile_name, "r");
@@ -53,7 +54,9 @@ void *calculate(void *threadid) {
 		elemPerThread = N*N - startElem;
 	}
 	
+	fprintf(outfile, "threadID = %i, startLoop = %i, endLoop = %i\n", id, startElem, startElem + elemPerThread);
 	printf("threadID = %i, startLoop = %i, endLoop = %i\n", id, startElem, startElem + elemPerThread);
+
 	for (int i = startElem; i < startElem + elemPerThread; ++i) {
 		int row = i / N;
 		int col = i % N;
@@ -78,6 +81,7 @@ int main (int argc, char *argv[]) {
 
 	char *infile_name = argv[3];
 	input_handler(infile_name);
+	outfile = fopen(outfile_name, "w");
 
 	if (TOTAL_NUM_THREADS > N*N) {
 		NUM_THREADS = N*N;
@@ -100,9 +104,9 @@ int main (int argc, char *argv[]) {
 		pthread_join(threads[t], NULL);
 	}
 
-	FILE *outfile = fopen(outfile_name, "w");
 	fprintf(outfile, "numOfEven: %i, numOfOdd: %i, totalCells: %i\n", numOfEven, numOfOdd, totalNum);
 	printf("numOfEven: %i, numOfOdd: %i, totalCells: %i\n", numOfEven, numOfOdd, totalNum);
 
+	fclose (outfile); 
 	pthread_exit(NULL);
 }
